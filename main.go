@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
+	"strings"
 
 	"github.com/alecthomas/kingpin"
+	"github.com/sbreitf1/go-console"
 )
 
 var (
@@ -47,9 +50,18 @@ func getPassword() (string, error) {
 	}
 
 	if *argPrompt {
-		return "", fmt.Errorf("user prompt not implemented yet")
+		fmt.Print("Password: ")
+		pass, err := console.ReadPassword()
+		if err != nil {
+			return "", fmt.Errorf("failed to prompt for password: %s", err.Error())
+		}
+		return pass, nil
 	}
 
-	//TODO read from StdIn
-	return "", fmt.Errorf("read from StdIn not implemented yet")
+	sb := &strings.Builder{}
+	_, err := io.Copy(sb, os.Stdin)
+	if err != nil {
+		return "", fmt.Errorf("failed to read password from StdIn: %s", err.Error())
+	}
+	return sb.String(), nil
 }

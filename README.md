@@ -16,18 +16,18 @@ go install github.com/sbreitf1/go-crypt
 Crypt passwords by supplying them via input parameter, StdIn or user prompt:
 
 ```
-crypt -i 'password'
+go-crypt -i 'password'
 
-echo 'password' | crypt
+echo 'password' | go-crypt
 
-crypt -p
+go-crypt -p
 > {hidden password}
 ```
 
 You can specify the crypt method using `-m`:
 
 ```
-crypt -i 'password' -m 'sha512'
+go-crypt -i 'password' -m 'sha512'
 ```
 
 See the list of available crypt methods below. Bcrypt versions are chosen to be consistent with the definitions in [Wikipedia](https://en.wikipedia.org/wiki/Bcrypt).
@@ -43,10 +43,10 @@ See the list of available crypt methods below. Bcrypt versions are chosen to be 
 The same password input options as for crypt are available for password verification. Use the option `-v` to pass a crypted value:
 
 ```
-crypt -i 'password' -v '$2a$10$p.qy7f4OptuEORh/lSCNC.3U39ra0F5FRPXfxoM8IG0JQvZPUZqbq'
+go-crypt -i 'password' -v '$2a$10$p.qy7f4OptuEORh/lSCNC.3U39ra0F5FRPXfxoM8IG0JQvZPUZqbq'
 password is ok
 
-crypt -i 'wrong password' -v '$2a$10$p.qy7f4OptuEORh/lSCNC.3U39ra0F5FRPXfxoM8IG0JQvZPUZqbq'
+go-crypt -i 'wrong password' -v '$2a$10$p.qy7f4OptuEORh/lSCNC.3U39ra0F5FRPXfxoM8IG0JQvZPUZqbq'
 the supplied password does not match the given crypt value
 ```
 
