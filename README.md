@@ -20,7 +20,7 @@ crypt -i 'password'
 
 echo 'password' | crypt
 
-crypt
+crypt -p
 > {hidden password}
 ```
 
