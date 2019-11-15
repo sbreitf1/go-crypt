@@ -18,7 +18,7 @@ Crypt passwords by supplying them via input parameter, StdIn or user prompt:
 ```
 go-crypt -i 'password'
 
-echo 'password' | go-crypt
+echo -n 'password' | go-crypt
 
 go-crypt -p
 > {hidden password}
