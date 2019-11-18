@@ -58,6 +58,11 @@ func genSalt(len int) string {
 
 func getCryptHandler(method string) (cryptFunc, error) {
 	switch strings.ToLower(method) {
+	case "1":
+		fallthrough
+	case "$1$":
+		return cryptMD5, nil
+
 	case "": // default method
 		fallthrough
 	case "default":
@@ -88,6 +93,15 @@ func getCryptHandler(method string) (cryptFunc, error) {
 	default:
 		return nil, fmt.Errorf("Unknown hash function %q", method)
 	}
+}
+
+func cryptMD5(password string) (string, error) {
+	hash, err := crypt.Crypt(password, fmt.Sprintf("$1$%s", getOrGenSalt(8, 8)))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	return string(hash), nil
 }
 
 func cryptBcrypt2a(password string) (string, error) {
