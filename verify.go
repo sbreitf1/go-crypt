@@ -40,6 +40,9 @@ func doVerify(password string) error {
 
 func getVerifyHandler(prefix string) (verifyFunc, error) {
 	switch prefix {
+	case "$1$":
+		return verifyMD5, nil
+
 	case "$2a$":
 		return verifyBcrypt2a, nil
 
@@ -52,6 +55,21 @@ func getVerifyHandler(prefix string) (verifyFunc, error) {
 	default:
 		return nil, fmt.Errorf("unregognized crypt prefix %q", prefix)
 	}
+}
+
+func verifyMD5(password, expectedHash string) (bool, error) {
+	parts := strings.Split(expectedHash, "$")
+	if len(parts) != 4 || len(parts[2]) != 8 {
+		return false, fmt.Errorf("invalid md5 crypt value")
+	}
+
+	salt := parts[2]
+	hash, err := crypt.Crypt(password, fmt.Sprintf("$1$%s", salt))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	return string(hash) == expectedHash, nil
 }
 
 func verifyBcrypt2a(password, expectedHash string) (bool, error) {
