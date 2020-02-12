@@ -24,6 +24,8 @@ go-crypt -p
 > {hidden password}
 ```
 
+**IMPORTANT NOTE** when using `echo` on a unix-based system, be sure to pass the flag `-n`. Otherwise, you might end up hashing a password that got a `\n` added to its end. You will only notice it when password validation fails for no reason.
+
 You can specify the crypt method using `-m`:
 
 ```
@@ -34,6 +36,7 @@ See the list of available crypt methods below. Bcrypt versions are chosen to be 
 
 | Key | Short | Example Output Prefix | Description |
 | --- | ----- | --------------------- | ----------- |
+| md5 | 1 | `$1$9Ue3/ehr$nBqkQqday1MDGQQwKeNiQ/` | MD5 based crypt |
 | _default_ | 2a | `$2a$10$K4NBx0JItxC5D0NPRBcz2u...` | Standard bcrypt with UTF-8 support |
 | sha256 | 5 | `$5$yx5Dcz8vmsvV$...` | SHA-256 based crypt |
 | sha512 | 6 | `$6$FD3.owZTk1v2$...` | SHA-512 based crypt |
